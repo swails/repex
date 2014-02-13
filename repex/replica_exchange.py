@@ -448,7 +448,7 @@ class ReplicaExchange(object):
         # Compute energies for this node's share of states.
         for state_index in range(self.mpicomm.rank, self.n_states, self.mpicomm.size):
             for replica_index in range(self.n_states):
-                self.u_kl[replica_index,state_index] = self.thermodynamic_states[state_index].reduced_potential(self.sampler_states[replica_index].positions, box_vectors=self.sampler_states[replica_index].box_vectors, platform=self.platform)
+                self.u_kl[replica_index,state_index] = self.thermodynamic_states[state_index].reduced_potential(self.sampler_states[replica_index], platform=self.platform)
 
         # Send final energies to all nodes.
         energies_gather = self.mpicomm.allgather(self.u_kl[:,self.mpicomm.rank:self.n_states:self.mpicomm.size])
